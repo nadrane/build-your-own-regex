@@ -73,29 +73,35 @@ describe("regex", () => {
     });
   });
   describe("should match 0 or 1 of the following character a '?'", () => {
-    describe("matchQuestion", () => {
-      it("supports a pattern starting with '?", () => {
-        expect(matchQuestion("i?", "this is i")).to.equal(true);
-        expect(matchQuestion("i?", "this is p")).to.equal(true);
-        expect(matchQuestion("j?", "works with any character")).to.equal(true);
+    it("supports `?` anywhere in the pattern", () => {
+      expect(search("this is? it", "this is it")).to.equal(true);
+      expect(search("this is? it", "this is it")).to.equal(true);
+      expect(search("this is? it", "this i it")).to.equal(true);
 
-        expect(matchQuestion("w?orks", "works")).to.equal(true);
-        expect(matchQuestion("w?orks", "work")).to.equal(false);
+      expect(search("i?", "this i it")).to.equal(true);
+      expect(search("one?", "i am the one")).to.equal(true);
+      expect(search("one?", "i am the on")).to.equal(true);
 
-        expect(matchQuestion("w?orks", "work")).to.equal(false);
-      });
+      expect(search("is? it? r?e?a?lly", "is it really")).to.equal(true);
+      expect(search("is? it? r?e?a?lly", "i i lly")).to.equal(true);
+
+      expect(search("is? it? r?e?a?lly", "i i ly")).to.equal(false);
     });
-    describe("search", () => {
-      it("supports `?` anywhere in the pattern", () => {
-        expect(search("this is? it", "this is it")).to.equal(true);
-        expect(search("this is? it", "this is it")).to.equal(true);
-        expect(search("this is? it", "this i it")).to.equal(true);
+  });
 
-        expect(search("is? it? r?e?a?lly", "is it really")).to.equal(true);
-        expect(search("is? it? r?e?a?lly", "i i lly")).to.equal(true);
+  describe("should match 0 or more characters following an '*'", () => {
+    it.only("supports `*` anywhere in the pattern", () => {
+      expect(search("a*", "")).to.equal(true);
+      expect(search("a*", "a")).to.equal(true);
+      expect(search("a*", "aaaaa")).to.equal(true);
 
-        expect(search("is? it? r?e?a?lly", "i i ly")).to.equal(false);
-      });
+      expect(search("b*", "aaaaa")).to.equal(true);
+      expect(search("ab*", "aaaaa")).to.equal(true);
+      expect(search("aaaab*", "aaaaa")).to.equal(true);
+
+      expect(search("this* i*s the str*ing", "thissss s the strrring")).to.equal(true);
+      expect(search("this* i*s the str*ing", "thissss i the strrrng")).to.equal(false);
+      expect(search("this* i*s the str*ing", "thissss i the srrrng")).to.equal(false);
     });
   });
 });
