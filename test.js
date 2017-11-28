@@ -90,7 +90,7 @@ describe("regex", () => {
   });
 
   describe("should match 0 or more characters following an '*'", () => {
-    it.only("supports `*` anywhere in the pattern", () => {
+    it("supports `*` anywhere in the pattern", () => {
       expect(search("a*", "")).to.equal(true);
       expect(search("a*", "a")).to.equal(true);
       expect(search("a*", "aaaaa")).to.equal(true);
