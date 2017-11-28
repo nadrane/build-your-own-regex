@@ -1,4 +1,4 @@
-# build-your-own-regex
+# Build Your Own Regex
 This is a test spec driven guide to help you build a simple regex engine.
 
 This regex engine supports the following syntax:
