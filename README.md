@@ -14,7 +14,7 @@ This regex engine supports the following syntax:
 
 The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code. The included solution is under 40 LOC including whitespace and comments.
 
-# Install
+## Install
 
 ```js
 npm install
@@ -23,10 +23,10 @@ npm test
 
 Now simply make changes to the `regex.js` file until the tests pass. Note that the tests are all pending the begin with. Just change the `xdescribe`s to `describe`s to switch the tests on.
 
-# Requirements
+## Requirements
 
 This project requires a strong understanding of __recursion__ and wonderfully showcases it's elegance with a non-trivial example.
 
-# Thanks
+## Thanks
 
  I was inspired by Rob Pike's [original implementation](https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html) of this program in c and Peter Norvig's rendition of it in Udacity's ["Design of Computer Programs"](https://www.udacity.com/course/design-of-computer-programs--cs212) course.
