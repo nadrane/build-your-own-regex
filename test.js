@@ -5,14 +5,16 @@ const regex = require("./regex");
 const search = regex.search;
 
 describe("regex", () => {
-  xdescribe("matchOne", () => {
+  describe("matchOne", () => {
     it("should return true when the text matches the pattern.", () => {
       expect(regex.matchOne("a", "a")).to.equal(true);
     });
-    it("should return false when the text is an empty string", () => {
-      expect(regex.matchOne("b", "")).to.equal(false);
+    it("should return true when the pattern is empty or undefined", () => {
+      expect(regex.matchOne("", "")).to.equal(true);
+      expect(regex.matchOne(undefined, "")).to.equal(true);
     });
-    it("should return false when the text is undefined", () => {
+    it("should return false when the text is an empty string or undefined but the pattern is defined", () => {
+      expect(regex.matchOne("b", "")).to.equal(false);
       expect(regex.matchOne("b", undefined)).to.equal(false);
     });
     it("should return false when the text does not match the pattern", () => {
@@ -24,7 +26,7 @@ describe("regex", () => {
     });
   });
 
-  xdescribe("match", () => {
+  describe("match", () => {
     it("should return true if given an empty pattern", () => {
       expect(regex.match("", "abc")).to.equal(true);
       expect(regex.match("", "cab")).to.equal(true);
@@ -52,7 +54,7 @@ describe("regex", () => {
   });
   describe("search", () => {
     /* You should not need to modify your match function to get this entire describe block to pass */
-    xdescribe("patterns starting with '^'", () => {
+    describe("patterns starting with '^'", () => {
       it("should delegate to the match function", () => {
         const spy = sinon.spy(regex, "match")
         search("^please work", "please work")
@@ -84,7 +86,7 @@ describe("regex", () => {
         expect(search("^bad", "ba test")).to.equal(false);
       });
     });
-    xdescribe("patterns not starting with '^'", () => {
+    describe("patterns not starting with '^'", () => {
       it("should delegate to the match function", () => {
         const spy = sinon.spy(regex, "match")
         search("please work", "please work")
@@ -106,7 +108,7 @@ describe("regex", () => {
       })
     });
   });
-  xdescribe("should match 0 or 1 of the following character a '?'", () => {
+  describe("should match 0 or 1 of the following character a '?'", () => {
     /* You should not need to modify your search function from this point on.
     Everything should be contained to the match function and any helper functions
     you create */
@@ -139,7 +141,7 @@ describe("regex", () => {
     });
   });
 
-  xdescribe("should match 0 or more characters following an '*'", () => {
+  describe("should match 0 or more characters following an '*'", () => {
     it('matches 0 characters if none are present', () => {
       expect(search("a*", "")).to.equal(true);
       expect(search("a*", "b")).to.equal(true);

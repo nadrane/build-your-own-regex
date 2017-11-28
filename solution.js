@@ -1,5 +1,6 @@
 function matchOne(pattern, text) {
-  if (pattern && !text) return false;
+  if (!pattern) return true
+  if (!text) return false;
   return pattern === "." || text === pattern;
 }
 
