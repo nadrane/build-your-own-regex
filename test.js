@@ -1,35 +1,51 @@
 const { expect } = require("chai");
 const mocha = require("mocha");
-const { matchOne, match, search, matchQuestion } = require("./regex");
+const sinon = require("sinon");
+const regex = require("./regex");
+const search = regex.search;
 
 describe("regex", () => {
   describe("matchOne", () => {
     it("should return true when the text matches the pattern.", () => {
-      expect(matchOne("a", "a")).to.equal(true);
+      expect(regex.matchOne("a", "a")).to.equal(true);
     });
     it("should return false when the text is an empty string", () => {
-      expect(matchOne("b", "")).to.equal(false);
+      expect(regex.matchOne("b", "")).to.equal(false);
     });
     it("should return false when the text does not match the pattern", () => {
-      expect(matchOne("a", "c")).to.equal(false);
+      expect(regex.matchOne("a", "c")).to.equal(false);
     });
     it("should match any character against a '.'", () => {
-      expect(matchOne(".", "c")).to.equal(true);
-      expect(matchOne(".", "q")).to.equal(true);
+      expect(regex.matchOne(".", "c")).to.equal(true);
+      expect(regex.matchOne(".", "q")).to.equal(true);
     });
   });
 
   describe("match", () => {
     it("should return true if given an empty pattern", () => {
-      expect(match("", "abc")).to.equal(true);
-      expect(match("", "cab")).to.equal(true);
+      expect(regex.match("", "abc")).to.equal(true);
+      expect(regex.match("", "cab")).to.equal(true);
     });
     it("should match an empty string to the end of line pattern '$'", () => {
-      expect(match("", "$")).to.equal(true);
+      expect(regex.match("", "$")).to.equal(true);
+    });
+    it("should match an exact sequence of characters", () => {
+      expect(regex.match("abc", "abc")).to.equal(true);
+      expect(regex.match("bac", "bac")).to.equal(true);
+    });
+    it("should match an exact sequence of characters with wildcards", () => {
+      expect(regex.match("a.c", "abc")).to.equal(true);
+      expect(regex.match("b.c", "bac")).to.equal(true);
     });
   });
   describe("search", () => {
     describe("patterns starting with '^'", () => {
+      it("should delegate to the match function", () => {
+        const spy = sinon.spy(regex, "match")
+        search("^please work", "please work")
+        expect(spy.calledOnce)
+        spy.restore()
+      })
       it("should match a longer sequence of characters", () => {
         expect(search("^please work", "please work")).to.equal(true);
         expect(search("^good test", "good test")).to.equal(true);
@@ -56,6 +72,12 @@ describe("regex", () => {
       });
     });
     describe("patterns not starting with '^'", () => {
+      it("should delegate to the match function", () => {
+        const spy = sinon.spy(regex, "match")
+        search("please work", "please work")
+        expect(spy.calledOnce)
+        spy.restore()
+      })
       it("should match a sequence of characters inside a larger text body", () => {
         expect(search("match", "this is a match")).to.equal(true);
         expect(search("what", "this is what we are doing")).to.equal(true);
