@@ -5,19 +5,13 @@ const { matchOne, match, search, matchQuestion } = require("./regex");
 describe("regex", () => {
   describe("matchOne", () => {
     it("should return true when the text matches the pattern.", () => {
-      const pattern = "a";
-      const text = "a";
-      expect(matchOne(pattern, text)).to.equal(true);
+      expect(matchOne("a", "a")).to.equal(true);
     });
     it("should return false when the text is an empty string", () => {
-      const pattern = "b";
-      const text = "";
-      expect(matchOne(pattern, text)).to.equal(false);
+      expect(matchOne("b", "")).to.equal(false);
     });
     it("should return false when the text does not match the pattern", () => {
-      const pattern = "a";
-      const text = "c";
-      expect(matchOne(pattern, text)).to.equal(false);
+      expect(matchOne("a", "c")).to.equal(false);
     });
     it("should match any character against a '.'", () => {
       expect(matchOne(".", "c")).to.equal(true);
@@ -73,15 +67,27 @@ describe("regex", () => {
     });
   });
   describe("should match 0 or 1 of the following character a '?'", () => {
-    it("supports `?` anywhere in the pattern", () => {
-      expect(search("this is? it", "this is it")).to.equal(true);
-      expect(search("this is? it", "this is it")).to.equal(true);
-      expect(search("this is? it", "this i it")).to.equal(true);
+    it("matches 0 characters if none are present", () => {
+      expect(search("a?", "")).to.equal(true);
+      expect(search("a?", "b")).to.equal(true);
+    });
+    it("matches 1 character if it is present", () => {
+      expect(search("a?", "a")).to.equal(true);
+      expect(search("b?", "b")).to.equal(true);
+    });
+    it("matches 0 characters inside a larger string", () => {
+      expect(search("thi?s", "ths")).to.equal(true);
+      expect(search("this is?", "this i")).to.equal(true);
 
-      expect(search("i?", "this i it")).to.equal(true);
-      expect(search("one?", "i am the one")).to.equal(true);
-      expect(search("one?", "i am the on")).to.equal(true);
+      expect(search("this is? it", "this i")).to.equal(false);
+    });
+    it("matches 1 character inside a larger string", () => {
+      expect(search("one?", "one")).to.equal(true);
+      expect(search("one? of us", "one of us")).to.equal(true);
 
+      expect(search("is it one? of us", "is it one")).to.equal(false);
+    });
+    it("works with multiple '?' characters", () => {
       expect(search("is? it? r?e?a?lly", "is it really")).to.equal(true);
       expect(search("is? it? r?e?a?lly", "i i lly")).to.equal(true);
 
@@ -90,21 +96,24 @@ describe("regex", () => {
   });
 
   describe("should match 0 or more characters following an '*'", () => {
-    it("supports `*` anywhere in the pattern", () => {
+    it('matches 0 characters if none are present', () => {
       expect(search("a*", "")).to.equal(true);
+      expect(search("a*", "b")).to.equal(true);
+      expect(search("b*", "aaaaa")).to.equal(true);
+    })
+    it("one to many many characters", () => {
       expect(search("a*", "a")).to.equal(true);
       expect(search("a*", "aaaaa")).to.equal(true);
-
-      expect(search("b*", "aaaaa")).to.equal(true);
-      expect(search("ab*", "aaaaa")).to.equal(true);
-      expect(search("aaaab*", "aaaaa")).to.equal(true);
-
+    })
+    it("is not overly greedy", () => {
+      // You could envision an implementation where the 'a*' portion consumes the entire
+      // text, resulting in a failed match. In reality, this match should succeed.
+      expect(search("a*a", "aaaaa")).to.equal(true);
+    });
+    it("works with multiple '*' characters", ()=> {
       expect(search("this* i*s the str*ing", "thissss s the strrring")).to.equal(true);
       expect(search("this* i*s the str*ing", "thissss i the strrrng")).to.equal(false);
       expect(search("this* i*s the str*ing", "thissss i the srrrng")).to.equal(false);
-
-      // make sure that the * is not greedy
-      expect(search(".*abc", "abc")).to.equal(true);
-    });
+    })
   });
 });
