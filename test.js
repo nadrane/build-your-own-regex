@@ -5,12 +5,15 @@ const regex = require("./regex");
 const search = regex.search;
 
 describe("regex", () => {
-  xdescribe("matchOne", () => {
+  describe("matchOne", () => {
     it("should return true when the text matches the pattern.", () => {
       expect(regex.matchOne("a", "a")).to.equal(true);
     });
     it("should return false when the text is an empty string", () => {
       expect(regex.matchOne("b", "")).to.equal(false);
+    });
+    it("should return false when the text is undefined", () => {
+      expect(regex.matchOne("b", undefined)).to.equal(false);
     });
     it("should return false when the text does not match the pattern", () => {
       expect(regex.matchOne("a", "c")).to.equal(false);
