@@ -40,7 +40,6 @@ function matchStar(pattern, text) {
 
 module.exports = {
   matchOne,
-  matchQuestion,
   match,
   search
 };
