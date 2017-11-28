@@ -102,6 +102,9 @@ describe("regex", () => {
       expect(search("this* i*s the str*ing", "thissss s the strrring")).to.equal(true);
       expect(search("this* i*s the str*ing", "thissss i the strrrng")).to.equal(false);
       expect(search("this* i*s the str*ing", "thissss i the srrrng")).to.equal(false);
+
+      // make sure that the * is not greedy
+      expect(search(".*abc", "abc")).to.equal(true);
     });
   });
 });
