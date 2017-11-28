@@ -24,25 +24,35 @@ describe("regex", () => {
     });
   });
 
-  xdescribe("match", () => {
+  describe("match", () => {
     it("should return true if given an empty pattern", () => {
       expect(regex.match("", "abc")).to.equal(true);
       expect(regex.match("", "cab")).to.equal(true);
     });
     it("should match an empty string to the end of line pattern '$'", () => {
-      expect(regex.match("", "$")).to.equal(true);
+      expect(regex.match("$", "")).to.equal(true);
+      expect(regex.match("$", "abc")).to.equal(false);
     });
     it("should match an exact sequence of characters", () => {
       expect(regex.match("abc", "abc")).to.equal(true);
       expect(regex.match("bac", "bac")).to.equal(true);
     });
+
+    /*
+    If you passed the previous test with something like this:
+        if (pattern === text) return true
+    you probably want to go back and use the matchOne function. You should be able to come up with a
+    recursive expression where you invoke both match and matchOne, advancing the regex engine one
+    step closer to completion each time.
+    */
     it("should match an exact sequence of characters with wildcards", () => {
       expect(regex.match("a.c", "abc")).to.equal(true);
       expect(regex.match("b.c", "bac")).to.equal(true);
     });
   });
   describe("search", () => {
-    xdescribe("patterns starting with '^'", () => {
+    /* You should not need to modify your match function to get this entire describe block to pass */
+    describe("patterns starting with '^'", () => {
       it("should delegate to the match function", () => {
         const spy = sinon.spy(regex, "match")
         search("^please work", "please work")
@@ -74,37 +84,46 @@ describe("regex", () => {
         expect(search("^bad", "ba test")).to.equal(false);
       });
     });
-    xdescribe("patterns not starting with '^'", () => {
+    describe("patterns not starting with '^'", () => {
       it("should delegate to the match function", () => {
         const spy = sinon.spy(regex, "match")
         search("please work", "please work")
         expect(spy.calledOnce)
         spy.restore()
       })
-      it("should match a sequence of characters inside a larger text body", () => {
+      it("should match a sequence of characters starting at any position inside the text", () => {
         expect(search("match", "this is a match")).to.equal(true);
         expect(search("what", "this is what we are doing")).to.equal(true);
         expect(search("is what", "this is what we are doing")).to.equal(true);
 
-        expect(search("iswhat", "this is what we are doing")).to.equal(false);
         expect(search("blah", "this is what we are doing")).to.equal(false);
+        expect(search("iswhat", "this is what we are doing")).to.equal(false);
       });
+      it("returns the expected result if text is an empty string", () => {
+        expect(search("pattern", "")).to.equal(false)
+        expect(search("", "")).to.equal(true)
+        expect(search("$", "")).to.equal(true)
+      })
     });
   });
-  xdescribe("should match 0 or 1 of the following character a '?'", () => {
+  describe("should match 0 or 1 of the following character a '?'", () => {
+    /* You should not need to modify your search function from this point on.
+    Everything should be contained to the match function and any helper functions
+    you create */
+
     it("matches 0 characters if none are present", () => {
       expect(search("a?", "")).to.equal(true);
       expect(search("a?", "b")).to.equal(true);
-    });
-    it("matches 1 character if it is present", () => {
-      expect(search("a?", "a")).to.equal(true);
-      expect(search("b?", "b")).to.equal(true);
     });
     it("matches 0 characters inside a larger string", () => {
       expect(search("thi?s", "ths")).to.equal(true);
       expect(search("this is?", "this i")).to.equal(true);
 
       expect(search("this is? it", "this i")).to.equal(false);
+    });
+    it("matches 1 character if it is present", () => {
+      expect(search("a?", "a")).to.equal(true);
+      expect(search("b?", "b")).to.equal(true);
     });
     it("matches 1 character inside a larger string", () => {
       expect(search("one?", "one")).to.equal(true);
@@ -120,7 +139,7 @@ describe("regex", () => {
     });
   });
 
-  xdescribe("should match 0 or more characters following an '*'", () => {
+  describe("should match 0 or more characters following an '*'", () => {
     it('matches 0 characters if none are present', () => {
       expect(search("a*", "")).to.equal(true);
       expect(search("a*", "b")).to.equal(true);
