@@ -21,6 +21,8 @@ npm install
 npm test
 ```
 
+Now simply make changes to the `regex.js` file until the tests pass. Note that the tests are all pending the begin with. Just change the `xdescribe`s to `describe`s to switch the tests on.
+
 # Requirements
 
 This project requires a strong understanding of *recursion* and wonderfully showcases it's elegance with a non-trivial example.
