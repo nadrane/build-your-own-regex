@@ -25,7 +25,7 @@ Now simply make changes to the `regex.js` file until the tests pass. Note that t
 
 # Requirements
 
-This project requires a strong understanding of *recursion* and wonderfully showcases it's elegance with a non-trivial example.
+This project requires a strong understanding of __recursion__ and wonderfully showcases it's elegance with a non-trivial example.
 
 # Thanks
 
