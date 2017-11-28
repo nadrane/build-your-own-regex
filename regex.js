@@ -6,13 +6,8 @@ function matchOne(pattern, text) {
 function search(pattern, text) {
   if (pattern[0] === "^") {
     return match(pattern.slice(1), text);
-  } else if (!text){
-    return match(pattern, text)
   } else {
-    // If the pattern works given any starting location in the text
-    return text.split("").some((_, index) => {
-      return match(pattern, text.slice(index));
-    });
+    return match(".*" + pattern, text);
   }
 }
 
@@ -37,12 +32,10 @@ function matchQuestion(pattern, text) {
 }
 
 function matchStar(pattern, text) {
-  console.log("pattern", pattern, "text", text)
-  if (matchOne(pattern[0], text[0])) {
-    return match(pattern, text.slice(1))
-  } else {
-    return match(pattern.slice(2), text)
-  }
+  return (
+    (matchOne(pattern[0], text[0]) && match(pattern, text.slice(1))) ||
+    match(pattern.slice(2), text)
+  );
 }
 
 module.exports = {
