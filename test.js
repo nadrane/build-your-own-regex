@@ -5,7 +5,7 @@ const regex = require("./regex");
 const search = regex.search;
 
 describe("regex", () => {
-  describe("matchOne", () => {
+  xdescribe("matchOne", () => {
     it("should return true when the text matches the pattern.", () => {
       expect(regex.matchOne("a", "a")).to.equal(true);
     });
@@ -24,7 +24,7 @@ describe("regex", () => {
     });
   });
 
-  describe("match", () => {
+  xdescribe("match", () => {
     it("should return true if given an empty pattern", () => {
       expect(regex.match("", "abc")).to.equal(true);
       expect(regex.match("", "cab")).to.equal(true);
@@ -52,7 +52,7 @@ describe("regex", () => {
   });
   describe("search", () => {
     /* You should not need to modify your match function to get this entire describe block to pass */
-    describe("patterns starting with '^'", () => {
+    xdescribe("patterns starting with '^'", () => {
       it("should delegate to the match function", () => {
         const spy = sinon.spy(regex, "match")
         search("^please work", "please work")
@@ -84,7 +84,7 @@ describe("regex", () => {
         expect(search("^bad", "ba test")).to.equal(false);
       });
     });
-    describe("patterns not starting with '^'", () => {
+    xdescribe("patterns not starting with '^'", () => {
       it("should delegate to the match function", () => {
         const spy = sinon.spy(regex, "match")
         search("please work", "please work")
@@ -106,7 +106,7 @@ describe("regex", () => {
       })
     });
   });
-  describe("should match 0 or 1 of the following character a '?'", () => {
+  xdescribe("should match 0 or 1 of the following character a '?'", () => {
     /* You should not need to modify your search function from this point on.
     Everything should be contained to the match function and any helper functions
     you create */
@@ -139,7 +139,7 @@ describe("regex", () => {
     });
   });
 
-  describe("should match 0 or more characters following an '*'", () => {
+  xdescribe("should match 0 or more characters following an '*'", () => {
     it('matches 0 characters if none are present', () => {
       expect(search("a*", "")).to.equal(true);
       expect(search("a*", "b")).to.equal(true);
