@@ -9,8 +9,8 @@ This regex engine supports the following syntax:
 | * | Matches 0 or more of the previous character | a* | "", a, aa, aaa  |
 | ? | Matches 0 or one of the previous character | a? | "", a |
 | . | Matches any character literal | . | a, b, c, d, e ... |
-| ^ | Matches the start of a string | ^c | c, ca, caa, cbb
-| $ | Matches the end of a string | a$ | ba, baaa, qwerta |
+| ^ | Matches the start of a string | ^c | c, ca, caa, cbb ... |
+| $ | Matches the end of a string | a$ | ba, baaa, qwerta ... |
 
 The goal is to provide a syntax robust enough to match a large portion of regex usecases with minimal code. The included solution is under 40 LOC including whitespace and comments.
 
