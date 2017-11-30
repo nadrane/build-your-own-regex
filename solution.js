@@ -1,7 +1,7 @@
 //A walkthrough of this solution exists here: http://nickdrane.com/build-your-own-regex/
 
 function matchOne(pattern, text) {
-  if (!pattern) return true
+  if (!pattern) return true;
   if (!text) return false;
   return pattern === "." || text === pattern;
 }
@@ -27,11 +27,10 @@ function match(pattern, text) {
 }
 
 function matchQuestion(pattern, text) {
-  if (matchOne(pattern[0], text[0]) && match(pattern.slice(2), text.slice(1))) {
-    return true;
-  } else {
-    return match(pattern.slice(2), text);
-  }
+  return (
+    (matchOne(pattern[0], text[0]) && match(pattern.slice(2), text.slice(1))) ||
+    match(pattern.slice(2), text)
+  );
 }
 
 function matchStar(pattern, text) {

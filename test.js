@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const mocha = require("mocha");
-const regex = require("./solution");
+const regex = require("./regex");
 const search = regex.search;
 
 describe("regex", () => {
