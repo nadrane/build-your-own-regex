@@ -12,7 +12,7 @@ This regex engine supports the following syntax:
 | ^ | Matches the start of a string | ^c | c, ca, caa, cbb ... |
 | $ | Matches the end of a string | a$ | ba, baaa, qwerta ... |
 
-The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code. The included solution is under 40 LOC including whitespace and comments.
+The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code. The included solution is under 40 LOC.
 
 This repo has an accompanying blog post that explains the solution [here](http://nickdrane.com/build-your-own-regex/)
 
