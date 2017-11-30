@@ -1,3 +1,5 @@
+//A walkthrough of this solution exists here: http://nickdrane.com/build-your-own-regex/
+
 function matchOne(pattern, text) {
   if (!pattern) return true
   if (!text) return false;
@@ -15,9 +17,9 @@ function search(pattern, text) {
 function match(pattern, text) {
   if (!pattern) return true;
   else if (!text && pattern === "$") return true;
-  else if (pattern.length > 1 && "?" === pattern[1]) {
+  else if (pattern[1] === "?") {
     return matchQuestion(pattern, text);
-  } else if (pattern.length > 1 && "*" === pattern[1]) {
+  } else if (pattern[1] === "*") {
     return matchStar(pattern, text);
   } else {
     return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1));
