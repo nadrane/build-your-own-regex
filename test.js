@@ -35,6 +35,11 @@ describe("regex", () => {
       expect(regex.match("$", "abc")).to.equal(false);
     });
 
+    it('should work with $', () => {
+      expect(regex.match("ta$", "qwerta")).to.equal(true)
+      expect(regex.match("qw$", "qwerta")).to.equal(false)
+    });
+
     it("should match an exact sequence of characters", () => {
       expect(regex.match("abc", "abc")).to.equal(true);
       expect(regex.match("bac", "bac")).to.equal(true);
