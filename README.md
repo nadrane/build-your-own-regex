@@ -14,7 +14,7 @@ This regex engine supports the following syntax:
 
 The goal is to provide a syntax robust enough to match a large portion of regex use cases with minimal code. The included solution is under 40 LOC.
 
-This repo has an accompanying blog post that explains the solution [here](http://nickdrane.com/build-your-own-regex/)
+This repo has an accompanying blog post that explains the solution [here](https://nickdrane.com/build-your-own-regex/)
 
 ## Install
 
