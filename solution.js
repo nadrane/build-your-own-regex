@@ -1,4 +1,4 @@
-//A walkthrough of this solution exists here: http://nickdrane.com/build-your-own-regex/
+//A walkthrough of this solution exists here: https://nickdrane.com/build-your-own-regex/
 
 function matchOne(pattern, text) {
   if (!pattern) return true;
