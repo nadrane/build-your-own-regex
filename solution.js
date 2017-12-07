@@ -10,7 +10,7 @@ function search(pattern, text) {
   if (pattern[0] === "^") {
     return match(pattern.slice(1), text);
   } else {
-    return match(".*" + pattern, text);
+    return match('.*' + pattern, text)
   }
 }
 
@@ -21,6 +21,8 @@ function match(pattern, text) {
     return matchQuestion(pattern, text);
   } else if (pattern[1] === "*") {
     return matchStar(pattern, text);
+  } else if (pattern[0] === '(') {
+    return matchGroup(pattern, text)
   } else {
     return matchOne(pattern[0], text[0]) && match(pattern.slice(1), text.slice(1));
   }
@@ -38,6 +40,21 @@ function matchStar(pattern, text) {
     (matchOne(pattern[0], text[0]) && match(pattern, text.slice(1))) ||
     match(pattern.slice(2), text)
   );
+}
+
+function matchGroup(pattern, text) {
+  groupEnd = pattern.indexOf(')')
+  const groupPattern = pattern.slice(1).split(')')[0]
+  if (pattern[groupEnd + 1] === '?') {
+    const remainderPattern = pattern.split(')')[1].slice(1) // slice off the '?'
+    return match(groupPattern, text.slice(0, groupPattern.length)) && match(remainderPattern, text.slice(groupPattern.length)) || match(remainderPattern, text)
+  } else if (pattern[groupEnd + 1] === '*') {
+    const remainderPattern = pattern.split(')')[1].slice(1) // slice off the '*'
+    return match(groupPattern, text.slice(0, groupPattern.length)) && match(pattern, text.slice(groupPattern.length)) || match(remainderPattern, text)
+  } else {
+    const remainderPattern = pattern.split(')')[1]
+    return match(groupPattern, text.slice(0, groupPattern.length)) && match(remainderPattern, text.slice(groupPattern.length))
+  }
 }
 
 module.exports = {

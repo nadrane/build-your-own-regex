@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const mocha = require("mocha");
-const regex = require("./regex");
+const regex = require("./solution");
 const search = regex.search;
 
 describe("regex", () => {
@@ -153,4 +153,35 @@ describe("regex", () => {
       expect(search("this* i*s the str*ing", "thissss i the srrrng")).to.equal(false);
     })
   });
+
+  describe('grouping', () => {
+    it('matches all characters placed within grouping operators', () => {
+      expect(search("(the)", "the")).to.equal(true);
+      expect(search("i am (the) hulk", "i am the hulk")).to.equal(true);
+
+      expect(search("(th.e)", "the")).to.equal(false);
+    })
+    it('allows the ? metacharacter to apply to groups', () => {
+      expect(search("(the)?", "")).to.equal(true);
+      expect(search("(the)?", "the")).to.equal(true);
+      expect(search("i am (the)? hulk", "i am  hulk")).to.equal(true);
+      expect(search("i am (the)? hulk", "i am the hulk")).to.equal(true);
+
+      expect(search("i am (the)? hulk", "i am hulk")).to.equal(false);
+    })
+    it('allows the * metacharacter to apply to groups', () => {
+      expect(search("(the)*", "")).to.equal(true);
+      expect(search("(the)*", "")).to.equal(true);
+      expect(search("(the)*", "the")).to.equal(true);
+      expect(search("(the)*", "thethe")).to.equal(true);
+
+      expect(search("i am (the)* hulk", "i am the hulk")).to.equal(true);
+
+      expect(search("i am (the)*e hulk", "i am the hulk")).to.equal(false);
+    })
+    it('supports multiple groupings in a single pattern', () => {
+      expect(search("i went (to)? (school)* last (sunday)*", "i went to school last sunday")).to.equal(true)
+      expect(search("i went (to)? (school)* last (sunday)*", "i went  schoolschoolschool last ")).to.equal(true)
+    })
+  })
 });
