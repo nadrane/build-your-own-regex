@@ -182,6 +182,9 @@ describe("regex", () => {
     it('supports multiple groupings in a single pattern', () => {
       expect(search("i went (to)? (school)* last (sunday)*", "i went to school last sunday")).to.equal(true)
       expect(search("i went (to)? (school)* last (sunday)*", "i went  schoolschoolschool last ")).to.equal(true)
+
+      expect(search("i went (to)? (school)* last (sunday)* l", "i went  schoolschoolschool last ")).to.equal(false)
+      expect(search("i went (to)? (school)* last (sunday)", "i went  schoolschoolschool last ")).to.equal(false)
     })
   })
 });

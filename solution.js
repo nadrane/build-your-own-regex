@@ -43,16 +43,16 @@ function matchStar(pattern, text) {
 }
 
 function matchGroup(pattern, text) {
-  groupEnd = pattern.indexOf(')')
-  const groupPattern = pattern.slice(1).split(')')[0]
+  const groupEnd = pattern.indexOf(')')
+  const groupPattern = pattern.slice(1, groupEnd)
   if (pattern[groupEnd + 1] === '?') {
-    const remainderPattern = pattern.split(')')[1].slice(1) // slice off the '?'
+    const remainderPattern = pattern.slice(groupEnd + 2) // +2 needed to slice off the ')?'
     return match(groupPattern, text.slice(0, groupPattern.length)) && match(remainderPattern, text.slice(groupPattern.length)) || match(remainderPattern, text)
   } else if (pattern[groupEnd + 1] === '*') {
-    const remainderPattern = pattern.split(')')[1].slice(1) // slice off the '*'
+    const remainderPattern = pattern.slice(groupEnd + 2) // +2 needed to slice off the ')*'
     return match(groupPattern, text.slice(0, groupPattern.length)) && match(pattern, text.slice(groupPattern.length)) || match(remainderPattern, text)
   } else {
-    const remainderPattern = pattern.split(')')[1]
+    const remainderPattern = pattern.slice(groupEnd + 1)  // +1 needed to slice off the ')'
     return match(groupPattern, text.slice(0, groupPattern.length)) && match(remainderPattern, text.slice(groupPattern.length))
   }
 }
